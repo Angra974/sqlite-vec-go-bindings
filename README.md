@@ -1,13 +1,17 @@
+# Important : 
+# forked from asg017/sqlite-vec-go-bindings
+# Credits to the original works
+
 # sqlite-vec-go-bindings
 
-Go bindings for [`sqlite-vec`](https://github.com/asg017/sqlite-vec) project. In a separate repo to keep the original repo from getting too large.
+Go bindings for [`sqlite-vec`](https://github.com/Angra974/sqlite-vec) project. In a separate repo to keep the original repo from getting too large.
 
 There are two options when adding `sqlite-vec` to a Go project — A traditional CGO option, and a WASM-based option for the [ncruces/go-sqlite3](https://github.com/ncruces/go-sqlite3) project.
 
 Both are available in this Go module, which can be installed with:
 
 ```bash
-go get -u github.com/asg017/sqlite-vec-go-bindings
+go get -u github.com/Angra974/sqlite-vec-go-bindings
 ```
 
 ## CGO Bindings
@@ -21,7 +25,7 @@ import (
 	"database/sql"
 	"log"
 
-	sqlite_vec "github.com/asg017/sqlite-vec-go-bindings/cgo"
+	sqlite_vec "github.com/Angra974/sqlite-vec-go-bindings/cgo"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -60,7 +64,7 @@ import (
 	_ "embed"
 	"log"
 
-	_ "github.com/asg017/sqlite-vec-go-bindings/ncruces"
+	_ "github.com/Angra974/sqlite-vec-go-bindings/ncruces"
 	"github.com/ncruces/go-sqlite3"
 )
 
@@ -82,4 +86,4 @@ func main() {
 
 ```
 
-`"github.com/asg017/sqlite-vec-go-bindings/ncruces"` will automatically register a new SQLite WASM build that includes `sqlite-vec` functions by default. This replaces the `"github.com/ncruces/go-sqlite3/embed"` module in that project, so do NOT include them both.
+`"github.com/Angra974/sqlite-vec-go-bindings/ncruces"` will automatically register a new SQLite WASM build that includes `sqlite-vec` functions by default. This replaces the `"github.com/ncruces/go-sqlite3/embed"` module in that project, so do NOT include them both.

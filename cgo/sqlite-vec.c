@@ -2295,7 +2295,7 @@ int vec0_parse_vector_column(const char *source, int source_length,
                         struct VectorColumnDefinition *outColumn) {
   // parses a vector column definition like so:
   // "abc float[123]", "abc_123 bit[1234]", eetc.
-  // https://github.com/asg017/sqlite-vec/issues/46
+  // https://github.com/Angra974/sqlite-vec/issues/46
   int rc;
   struct Vec0Scanner scanner;
   struct Vec0Token token;
@@ -3287,7 +3287,7 @@ static int vec_npy_eachColumnBuffer(vec_npy_each_cursor *pCur,
     }
     case SQLITE_VEC_ELEMENT_TYPE_INT8:
     case SQLITE_VEC_ELEMENT_TYPE_BIT: {
-      // https://github.com/asg017/sqlite-vec/issues/42
+      // https://github.com/Angra974/sqlite-vec/issues/42
       sqlite3_result_error(context,
                            "vec_npy_each only supports float32 vectors", -1);
       break;
@@ -3315,7 +3315,7 @@ static int vec_npy_eachColumnFile(vec_npy_each_cursor *pCur,
     }
     case SQLITE_VEC_ELEMENT_TYPE_INT8:
     case SQLITE_VEC_ELEMENT_TYPE_BIT: {
-      // https://github.com/asg017/sqlite-vec/issues/42
+      // https://github.com/Angra974/sqlite-vec/issues/42
       sqlite3_result_error(context,
                            "vec_npy_each only supports float32 vectors", -1);
       break;
@@ -3426,7 +3426,7 @@ static sqlite3_module vec_npy_eachModule = {
 #define VEC0_SHADOW_METADATA_TEXT_DATA_NAME "\"%w\".\"%w_metadatatext%02d\""
 
 #define VEC_INTERAL_ERROR "Internal sqlite-vec error: "
-#define REPORT_URL "https://github.com/asg017/sqlite-vec/issues/new"
+#define REPORT_URL "https://github.com/Angra974/sqlite-vec/issues/new"
 
 typedef struct vec0_vtab vec0_vtab;
 
@@ -8573,10 +8573,10 @@ int vec0Update_Delete(sqlite3_vtab *pVTab, sqlite3_value *idValue) {
   }
 
   // 3. zero out rowid in chunks.rowids
-  // https://github.com/asg017/sqlite-vec/issues/54
+  // https://github.com/Angra974/sqlite-vec/issues/54
 
   // 4. zero out any data in vector chunks tables
-  // https://github.com/asg017/sqlite-vec/issues/54
+  // https://github.com/Angra974/sqlite-vec/issues/54
 
   // 5. delete from _rowids table
   rc = vec0Update_Delete_DeleteRowids(p, rowid);
@@ -8633,7 +8633,7 @@ int vec0Update_UpdateVectorColumn(vec0_vtab *p, i64 chunk_id, i64 chunk_offset,
   enum VectorElementType elementType;
   void *vector;
   vector_cleanup cleanup = vector_cleanup_noop;
-  // https://github.com/asg017/sqlite-vec/issues/53
+  // https://github.com/Angra974/sqlite-vec/issues/53
   rc = vector_from_value(valueVector, &vector, &dimensions, &elementType,
                          &cleanup, &pzError);
   if (rc != SQLITE_OK) {
@@ -8935,13 +8935,13 @@ static sqlite3_module vec0Module = {
     /* xCommit       */ vec0Commit,
     /* xRollback     */ vec0Rollback,
     /* xFindFunction */ 0,
-    /* xRename       */ 0, // https://github.com/asg017/sqlite-vec/issues/43
+    /* xRename       */ 0, // https://github.com/Angra974/sqlite-vec/issues/43
     /* xSavepoint    */ 0,
     /* xRelease      */ 0,
     /* xRollbackTo   */ 0,
     /* xShadowName   */ vec0ShadowName,
 #if SQLITE_VERSION_NUMBER >= 3044000
-    /* xIntegrity    */ 0, // https://github.com/asg017/sqlite-vec/issues/44
+    /* xIntegrity    */ 0, // https://github.com/Angra974/sqlite-vec/issues/44
 #endif
 };
 #pragma endregion
@@ -9305,7 +9305,7 @@ static int vec_static_blob_entriesBestIndex(sqlite3_vtab *pVTab,
   vec_static_blob_entries_vtab *p = (vec_static_blob_entries_vtab *)pVTab;
   int iMatchTerm = -1;
   int iLimitTerm = -1;
-  // int iRowidTerm = -1; // https://github.com/asg017/sqlite-vec/issues/47
+  // int iRowidTerm = -1; // https://github.com/Angra974/sqlite-vec/issues/47
   int iKTerm = -1;
 
   for (int i = 0; i < pIdxInfo->nConstraint; i++) {
@@ -9317,7 +9317,7 @@ static int vec_static_blob_entriesBestIndex(sqlite3_vtab *pVTab,
     if (op == SQLITE_INDEX_CONSTRAINT_MATCH &&
         iColumn == VEC_STATIC_BLOB_ENTRIES_VECTOR) {
       if (iMatchTerm > -1) {
-        // https://github.com/asg017/sqlite-vec/issues/51
+        // https://github.com/Angra974/sqlite-vec/issues/51
         return SQLITE_ERROR;
       }
       iMatchTerm = i;
@@ -9332,7 +9332,7 @@ static int vec_static_blob_entriesBestIndex(sqlite3_vtab *pVTab,
   }
   if (iMatchTerm >= 0) {
     if (iLimitTerm < 0 && iKTerm < 0) {
-      // https://github.com/asg017/sqlite-vec/issues/51
+      // https://github.com/Angra974/sqlite-vec/issues/51
       return SQLITE_ERROR;
     }
     if (iLimitTerm >= 0 && iKTerm >= 0) {
@@ -9343,7 +9343,7 @@ static int vec_static_blob_entriesBestIndex(sqlite3_vtab *pVTab,
       return SQLITE_CONSTRAINT;
     }
     if (pIdxInfo->nOrderBy > 1) {
-      // https://github.com/asg017/sqlite-vec/issues/51
+      // https://github.com/Angra974/sqlite-vec/issues/51
       vtab_set_error(pVTab, "more than 1 ORDER BY clause provided");
       return SQLITE_CONSTRAINT;
     }
@@ -9420,7 +9420,7 @@ static int vec_static_blob_entriesFilter(sqlite3_vtab_cursor *pVtabCursor,
 
     i64 k = min(sqlite3_value_int64(argv[1]), (i64)p->blob->nvectors);
     if (k < 0) {
-      // HANDLE https://github.com/asg017/sqlite-vec/issues/55
+      // HANDLE https://github.com/Angra974/sqlite-vec/issues/55
       return SQLITE_ERROR;
     }
     if (k == 0) {
@@ -9433,17 +9433,17 @@ static int vec_static_blob_entriesFilter(sqlite3_vtab_cursor *pVtabCursor,
 
     i32 *topk_rowids = sqlite3_malloc(k * sizeof(i32));
     if (!topk_rowids) {
-      // HANDLE https://github.com/asg017/sqlite-vec/issues/55
+      // HANDLE https://github.com/Angra974/sqlite-vec/issues/55
       return SQLITE_ERROR;
     }
     f32 *distances = sqlite3_malloc(bsize * sizeof(f32));
     if (!distances) {
-      // HANDLE https://github.com/asg017/sqlite-vec/issues/55
+      // HANDLE https://github.com/Angra974/sqlite-vec/issues/55
       return SQLITE_ERROR;
     }
 
     for (size_t i = 0; i < p->blob->nvectors; i++) {
-      // https://github.com/asg017/sqlite-vec/issues/52
+      // https://github.com/Angra974/sqlite-vec/issues/52
       float *v = ((float *)p->blob->p) + (i * p->blob->dimensions);
       distances[i] =
           distance_l2_sqr_float(v, (float *)queryVector, &p->blob->dimensions);
@@ -9564,7 +9564,7 @@ static sqlite3_module vec_static_blob_entriesModule = {
     /* iVersion    */ 3,
     /* xCreate     */
     vec_static_blob_entriesCreate, // handle rm?
-                                   // https://github.com/asg017/sqlite-vec/issues/55
+                                   // https://github.com/Angra974/sqlite-vec/issues/55
     /* xConnect    */ vec_static_blob_entriesConnect,
     /* xBestIndex  */ vec_static_blob_entriesBestIndex,
     /* xDisconnect */ vec_static_blob_entriesDisconnect,
